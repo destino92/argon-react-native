@@ -13,6 +13,7 @@ import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
+import RegisterOTP from "../screens/RegisterOTP";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 // drawer
@@ -27,6 +28,36 @@ const { width } = Dimensions.get("screen");
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+
+function RegisterStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="none">
+        <Stack.Screen
+            name="Register"
+            component={Register}
+            option={{
+                headerTransparent: true
+            }}
+        />
+        <Stack.Screen name="RegisterOTP" component={RegisterOTPStack} />
+    </Stack.Navigator>
+  );
+}
+
+function RegisterOTPStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="none">
+        <Stack.Screen
+            name="RegisterOTP"
+            component={RegisterOTP}
+            option={{
+                headerTransparent: true
+            }}
+        />
+        <Stack.Screen name="App" component={AppStack} />
+    </Stack.Navigator>
+  );
+}
 
 function ElementsStack(props) {
   return (
@@ -107,7 +138,7 @@ function ProfileStack(props) {
             <Header
               transparent
               white
-              title="Profile"
+              title="Mon espace client"
               navigation={navigation}
               scene={scene}
             />
@@ -146,9 +177,7 @@ function HomeStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="Home"
-              search
-              options
+              title="Mon Espace Client"
               navigation={navigation}
               scene={scene}
             />
@@ -188,6 +217,8 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="Register" component={RegisterStack} />
+      <Stack.Screen name="RegisterOTP" component={RegisterOTPStack} />
     </Stack.Navigator>
   );
 }
@@ -225,7 +256,7 @@ function AppStack(props) {
     >
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Account" component={Register} />
+      <Drawer.Screen name="Account" component={RegisterStack} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
     </Drawer.Navigator>

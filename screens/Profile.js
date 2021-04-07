@@ -32,13 +32,13 @@ class Profile extends React.Component {
               style={{ width, marginTop: '25%' }}
             >
               <Block flex style={styles.profileCard}>
-                <Block middle style={styles.avatarContainer}>
+                {/*<Block middle style={styles.avatarContainer}>
                   <Image
                     source={{ uri: Images.ProfilePicture }}
                     style={styles.avatar}
                   />
-                </Block>
-                <Block style={styles.info}>
+    </Block>*/}
+                {/*<Block style={styles.info}>
                   <Block
                     middle
                     row
@@ -93,20 +93,32 @@ class Profile extends React.Component {
                       <Text size={12} color={argonTheme.COLORS.TEXT}>Comments</Text>
                     </Block>
                   </Block>
-                </Block>
+</Block>*/}
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      Jessica Jones, 27
+                      John Doe
                     </Text>
                     <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                      San Francisco, USA
+                      Rue des Alsaces
+                    </Text>
+                    <Text size={20} color="#32325D" style={{ marginTop: 10 }}>
+                      Client: 0500006K
+                    </Text>
+                    <Block style={styles.divider} />
+                    <Text size={14} color="#32325D" style={{ marginTop: 10 }}>
+                      <Text bold>Branchement: 0002 01 0100</Text>     Moyenne Tension
+                    </Text>
+                    <Block style={styles.divider} />
+                    <Text size={14} color="#32325D" style={{ marginTop: 10 }}>
+                      <Text bold>Police: 0400006P</Text>     Puissance Souscrite 09 KVA
+                    </Text>
+                    <Block style={styles.divider} />
+                    <Text size={14} color="#32325D" style={{ marginTop: 10 }}>
+                      <Text bold >Facturation: Comptage</Text>     
                     </Text>
                   </Block>
-                  <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
-                    <Block style={styles.divider} />
-                  </Block>
-                  <Block middle>
+                  {/*<Block middle>
                     <Text
                       size={16}
                       color="#525F7F"
@@ -125,8 +137,8 @@ class Profile extends React.Component {
                     >
                       Show more
                     </Button>
-                  </Block>
-                  <Block
+                    </Block>*/}
+                  {/*<Block
                     row
                     space="between"
                   >
@@ -152,7 +164,7 @@ class Profile extends React.Component {
                         />
                       ))}
                     </Block>
-                  </Block>
+                      </Block>*/}
                 </Block>
               </Block>
             </ScrollView>
@@ -161,12 +173,6 @@ class Profile extends React.Component {
         {/* <ScrollView showsVerticalScrollIndicator={false} 
                     contentContainerStyle={{ flex: 1, width, height, zIndex: 9000, backgroundColor: 'red' }}>
         <Block flex style={styles.profileCard}>
-          <Block middle style={styles.avatarContainer}>
-            <Image
-              source={{ uri: Images.ProfilePicture }}
-              style={styles.avatar}
-            />
-          </Block>
           <Block style={styles.info}>
             <Block
               middle
@@ -293,7 +299,7 @@ const styles = StyleSheet.create({
   },
   profileBackground: {
     width: width,
-    height: height / 2
+    height: height
   },
   profileCard: {
     // position: "relative",
@@ -302,6 +308,8 @@ const styles = StyleSheet.create({
     marginTop: 65,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     backgroundColor: theme.COLORS.WHITE,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 0 },

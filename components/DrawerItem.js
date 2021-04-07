@@ -40,8 +40,8 @@ class DrawerItem extends React.Component {
       case "Profile":
         return (
           <Icon
-            name="chart-pie-35"
-            family="ArgonExtra"
+            name="person"
+            family="Octicons"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.WARNING}
           />
@@ -98,7 +98,9 @@ class DrawerItem extends React.Component {
               bold={focused ? true : false}
               color={focused ? "white" : "rgba(0,0,0,0.5)"}
             >
-              {title}
+              { 
+                title == "Home" ? "Acceuil" : (title == "Profile" ? "Profil" : title)
+              }
             </Text>
           </Block>
         </Block>

@@ -13,73 +13,26 @@ import { Block, Checkbox, Text, theme } from "galio-framework";
 import { Button, Icon, Input } from "../components";
 import { Images, argonTheme } from "../constants";
 
-import * as FirebaseRecaptcha from 'expo-firebase-recaptcha';
-import * as firebase from 'firebase';
-
 const { width, height } = Dimensions.get("screen");
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyCxGSpLhFUk00ZuP9GGtIz1Z5Gsnl_cO3g',
-  authDomain: 'e2cportal.firebaseapp.com',
-  databaseURL: 'https://project-id.firebaseio.com',
-  projectId: 'e2cportal',
-  storageBucket: 'e2cportal.appspot.com',
-  messagingSenderId: '147998621287',
-  appId: '1:147998621287:web:f81c023cd42ceaa4cd9ec2',
-  measurementId: 'G-MBVYDM1D4G',
-};
-
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig)
-}
 
 class Register extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            phone: '', 
-            verificationID: '',
-            verifyError: '',
-            verifyInProgress: false,
-
-        };
-        this.recaptchaVerifier = React.createRef();
-        this.onChangePhone = this.onChangePhone.bind(this);
-        this.getCode = this.getCode.bind(this);
+        this.state = {internalValue: null};
+        this.onChangeText = this.onChangeText.bind(this);
+        this.goToApp = this.goToApp.bind(this);
     }
 
-    onChangePhone(text) {
-        this.setState({phone: text});
+    onChangeText(val) {
+         this.setState({internalValue: val});
     }
 
-    async getCode(){
-        const phoneProvider = new firebase.auth.PhoneAuthProvider();
-        this.props.navigation.navigate('RegisterOTP')
-        try {
-            this.setState({
-                verifyError: undefined,
-                verifyInProgress: true,
-                verificationId: '',
-            });
-            const verificationId = await phoneProvider.verifyPhoneNumber(
-                phone,
-                // @ts-ignore
-                recaptchaVerifier.current
-            );
-            this.setState({
-                verifyError: undefined,
-                verifyInProgress: false,
-                verificationId: verificationId,
-            });
-            this.props.navigation.navigate('RegisterOTP')
-        } catch (err) {
-            this.setState({
-                verifyError: err,
-                verifyInProgress: false
-            });
-        }
+    goToApp(){
+        this.props.navigation.navigate('App')
     }
+
   render() {
+    const lengthInput = 6
     return (
       <Block flex middle>
         <StatusBar hidden />
@@ -89,13 +42,9 @@ class Register extends React.Component {
         >
           <Block safe flex middle>
             <Block style={styles.registerContainer}>
-              <FirebaseRecaptcha.FirebaseRecaptchaVerifierModal
-                ref={this.recaptchaVerifier}
-                firebaseConfig={firebaseConfig}
-              />
               <Block flex={0.25} middle style={styles.socialConnect}>
                 <Text color={argonTheme.COLORS.DEFAULT} size={36}>
-                  Se Connecter
+                  Vérification
                 </Text>
               </Block>
               <Block flex>
@@ -106,26 +55,37 @@ class Register extends React.Component {
                     behavior="padding"
                     enabled
                   >
-                    <Text style={styles.textStyle}>{"Veuillez saisir votre numéro de téléphone"}</Text>
-                    <Block width={width * 0.8} style={styles.contenairInput}>
+                    <Text style={styles.textStyle}>{"Saisissez le code envoyé par SMS"}</Text>
+                    <Block width={width * 0.8}>
                       <Input
+                        autoFocus
                         borderless
-                        placeholder="+242067777777"
-                        keyboardType="phone-pad"
-                        textContentType="telephoneNumber"
-                        autoCompleteType="tel"
-                        value={this.state.phone}
-                        onChangeText={this.onChangePhone}
-                        style={styles.phoneInputStyle}
-                        secureTextEntry={false}
+                        placeholder="067777777"
+                        keyboardType="numeric"
+                        value={this.state.internalValue}
+                        maxLength={lengthInput}
+                        onChangeText={this.onChangeText}
+                        style={{width:0, height: 0}}
+                        returnKeyType="done"
                       />
+                      <View style={styles.contenairInput}>
+                        {
+                            Array(lengthInput).fill().map((data, index) => (
+                                <View key={index} style={styles.cellView}>
+                                    <Text style={styles.cellText} onPress={() => this.textInput.focus()}>
+                                        {this.state.internalValue && this.state.internalValue.length > 0 ? this.state.internalValue[index] : ""}
+                                    </Text>
+                                </View>
+                            ))
+                        }
+                      </View>
                     </Block>
                     
                     <Block middle style={styles.viewBottom}>
-                      <TouchableOpacity onPress={this.getCode}>
+                      <TouchableOpacity onPress={this.goToApp}>
                           <View style={styles.createButton}>
                             <Text bold size={14} color={argonTheme.COLORS.WHITE} style={{ alignItems: 'center'}}>
-                                Envoyez moi le code de verification
+                                Confirmer le code verification
                             </Text>
                           </View>
                       </TouchableOpacity>
@@ -175,12 +135,9 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   contenairInput: {
-    backgroundColor: 'white', 
-    height: 50, 
     flexDirection: 'row',
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   openDialogView: {
     flexDirection: 'row',
@@ -191,6 +148,20 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     flex: 1,
     height: 50
+  },
+  cellView: {
+      paddingVertical: 11,
+      width: 40,
+      margin: 5,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderBottomWidth: 1.5,
+      backgroundColor: 'white',
+      borderRadius: 2
+  },
+  cellText: {
+      textAlign: 'center',
+      fontSize: 16
   }
 });
 
